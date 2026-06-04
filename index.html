@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Notas">
+<title>Notas</title>
+<link rel="manifest" href="#" id="manifest-link">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- ═══════════════ TOP BAR ═══════════════ -->
+<div id="topbar">
+  <button class="tb-btn no-select" id="hamburger-btn" title="Menú">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <button id="folder-dropdown-btn" class="no-select">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+      <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+    </svg>
+    <span id="folder-btn-label">Todas las notas</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </button>
+
+  <button class="tb-btn no-select" id="search-btn" title="Buscar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  </button>
+
+  <button class="tb-btn no-select" id="dots-btn" title="Más opciones">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+    </svg>
+  </button>
+
+  <!-- Search bar overlay -->
+  <div id="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="color:var(--text3);flex-shrink:0">
+      <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" id="search-input" placeholder="Buscar en notas...">
+    <button class="tb-btn" id="search-close-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Folder dropdown panel -->
+<div id="folder-dd-panel">
+  <div class="dd-item" data-folder="all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+    Todas las notas
+  </div>
+  <!-- dynamic folders injected here -->
+  <div class="dd-sep"></div>
+  <div class="dd-item" data-action="expand-all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 14 12 19 17 14"/><polyline points="7 5 12 10 17 5"/></svg>
+    Expandir todas
+  </div>
+  <div class="dd-item" data-action="collapse-all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 10 12 5 17 10"/><polyline points="7 19 12 14 17 19"/></svg>
+    Contraer todas
+  </div>
+  <div class="dd-item" data-action="sort-date">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Ordenar por fecha
+  </div>
+  <div class="dd-item" data-action="sort-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+    Ordenar por título
+  </div>
+  <div class="dd-sep"></div>
+  <div class="dd-item" data-action="backup">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Respaldar notas
+  </div>
+  <div class="dd-item" data-action="restore">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Restaurar notas
+  </div>
+</div>
+
+<!-- Three dots menu -->
+<div id="dots-menu">
+  <div class="dm-item" data-action="expand-all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 14 12 19 17 14"/><polyline points="7 5 12 10 17 5"/></svg>
+    Expandir todas
+  </div>
+  <div class="dm-item" data-action="collapse-all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 10 12 5 17 10"/><polyline points="7 19 12 14 17 19"/></svg>
+    Contraer todas
+  </div>
+  <div class="dm-item" data-action="sort-date">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Ordenar por fecha
+  </div>
+  <div class="dm-item" data-action="sort-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+    Ordenar por título
+  </div>
+  <div class="dm-item" data-action="backup">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Respaldar notas
+  </div>
+  <div class="dm-item" data-action="restore">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Restaurar notas
+  </div>
+</div>
+
+<!-- ═══════════════ OVERLAY + SIDEBAR ═══════════════ -->
+<div id="overlay"></div>
+<div id="sidebar">
+  <div class="sidebar-header">
+    <h2>✦ Notas</h2>
+    <p>almacenamiento offline · PWA</p>
+  </div>
+  <div class="sidebar-body">
+    <div class="sb-block active" data-view="all" id="sb-all">
+      <div class="sb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span class="sb-label">Notas</span>
+      <span class="sb-count" id="sb-count-all">0</span>
+    </div>
+    <div class="sb-block" data-view="starred" id="sb-starred">
+      <div class="sb-icon" style="color:var(--gold)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <span class="sb-label">Destacados</span>
+      <span class="sb-count" id="sb-count-starred">0</span>
+    </div>
+
+    <div class="sb-section-title">Carpetas</div>
+
+    <div class="sb-manage-btn" id="manage-folders-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Administrar carpetas
+    </div>
+    <div class="sb-folders-list" id="sb-folders-list">
+      <!-- dynamic -->
+    </div>
+
+    <div class="sb-block" data-view="trash" id="sb-trash" style="margin-top:8px">
+      <div class="sb-icon" style="color:var(--danger)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      </div>
+      <span class="sb-label">Eliminadas</span>
+      <span class="sb-count" id="sb-count-trash">0</span>
+    </div>
+  </div>
+
+  <div class="sb-support-btn" id="support-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    Apoyar Proyecto
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div id="main">
+  <div class="notes-grid" id="notes-grid">
+    <!-- dynamic -->
+  </div>
+  <div class="empty-state" id="empty-state" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+    </svg>
+    <h3>Sin notas</h3>
+    <p>Toca el botón + para crear tu primera nota</p>
+  </div>
+</div>
+
+<!-- FAB -->
+<button id="fab" title="Nueva nota">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+</button>
+
+<!-- ═══════════════ NOTE PAGE ═══════════════ -->
+<div id="note-page">
+  <div id="note-topbar">
+    <button class="tb-btn" id="note-back-btn" title="Volver">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+    <div style="flex:1"></div>
+
+    <select id="note-folder-sel"></select>
+
+    <button class="tb-btn" id="note-save-btn" title="Guardar" style="color:var(--accent3)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+      </svg>
+    </button>
+    <button class="tb-btn" id="note-pin-btn" title="Fijar nota">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 00-1.11-1.79l-1.78-.9A2 2 0 0115 10.76V6h1a2 2 0 000-4H8a2 2 0 000 4h1v4.76a2 2 0 01-1.11 1.79l-1.78.9A2 2 0 005 15.24z"/>
+      </svg>
+    </button>
+    <button class="tb-btn" id="note-dots-btn" title="Más opciones">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Note dots menu -->
+  <div id="note-dots-menu">
+    
+    <div class="bg-color-panel">
+  <p>Color de fondo</p>
+  <div class="bg-color-swatches">
+    <div class="color-swatch swatch-default active" data-bg=""></div>
+    <div class="color-swatch swatch-purple" data-bg="bg-purple"></div>
+    <div class="color-swatch swatch-teal"   data-bg="bg-teal"></div>
+    <div class="color-swatch swatch-rose"   data-bg="bg-rose"></div>
+    <div class="color-swatch swatch-amber"  data-bg="bg-amber"></div>
+    <div class="color-swatch swatch-green"  data-bg="bg-green"></div>
+    <div class="color-swatch swatch-slate"  data-bg="bg-slate"></div>
+  </div>
+</div>
+    
+    <div class="dm-item" id="nd-share">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Compartir nota
+    </div>
+    <div class="dm-item" id="nd-duplicate">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Duplicar nota
+    </div>
+    <div class="dm-item" id="nd-move-trash" style="color:var(--danger)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      Mover a papelera
+    </div>
+  </div>
+
+  <div id="note-body">
+    <input type="text" id="note-title-input" placeholder="Título de la nota..." maxlength="120">
+
+    <div id="note-images-preview" style="display:flex;flex-wrap:wrap;padding:4px 0"></div>
+    <textarea id="note-content-input" placeholder="Escribe tu nota aquí..."></textarea>
+  </div>
+
+  <div id="font-panel">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;width:100%">
+      <span style="font-size:12px;color:var(--text3);font-family:var(--mono);margin-right:4px">Fuente</span>
+      <span class="font-opt active" data-font="Sora">Sora</span>
+      <span class="font-opt" data-font="JetBrains Mono">Mono</span>
+      <span class="font-opt" data-font="Georgia">Serif</span>
+      <span class="font-opt" data-font="Arial">Sans</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;width:100%;margin-top:6px">
+      <span style="font-size:12px;color:var(--text3);font-family:var(--mono)">Tamaño</span>
+      <div class="font-size-ctrl">
+        <button class="fsc-btn" id="font-minus">−</button>
+        <span id="font-size-val">15</span>px
+        <button class="fsc-btn" id="font-plus">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="note-footer">
+    <button class="nf-btn" id="nf-star" title="Destacar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </button>
+    <button class="nf-btn" id="nf-trash" title="Eliminar" style="color:var(--danger)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+    </button>
+    <button class="nf-btn" id="nf-font" title="Fuente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+    </button>
+    <button class="nf-btn" id="nf-image" title="Insertar imagen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    </button>
+    <button class="nf-btn" id="nf-undo" title="Deshacer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"/></svg>
+    </button>
+    <button class="nf-btn" id="nf-redo" title="Rehacer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 019-9 9 9 0 016 2.3L21 13"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════ MODALS ═══════════════ -->
+
+<!-- Support modal -->
+<div class="modal-overlay" id="support-modal">
+  <div class="modal">
+    <h3 style="text-align:center">❤️ Apoyar Proyecto</h3>
+    <div class="qr-container">
+<div class="qr-box">
+    <img src="img/qr-pago.png" style="width:100%;height:100%;object-fit:contain;">
+</div>
+      <p class="qr-msg">Escanea este código para apoyar el proyecto</p>
+    </div>
+    <div class="modal-btns" style="justify-content:center">
+      <button class="btn-secondary modal-close" data-modal="support-modal">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manage folders modal -->
+<div class="modal-overlay" id="folders-modal">
+  <div class="modal">
+    <h3>📁 Carpetas</h3>
+    <div class="folder-list-modal" id="folders-list-modal"></div>
+    <input type="text" class="modal-input" id="new-folder-input" placeholder="Nombre de nueva carpeta..." maxlength="40">
+    <div class="modal-btns">
+      <button class="btn-secondary modal-close" data-modal="folders-modal">Cancelar</button>
+      <button class="btn-primary" id="create-folder-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm delete modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h3 id="confirm-title">¿Confirmar?</h3>
+    <p id="confirm-msg" style="font-size:14px;color:var(--text2);margin-bottom:20px"></p>
+    <div class="modal-btns">
+      <button class="btn-secondary modal-close" data-modal="confirm-modal">Cancelar</button>
+      <button class="btn-danger" id="confirm-ok-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden file input for restore -->
+<input type="file" id="restore-file-input" accept=".json">
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="js/index.js"></script>
+</body>
+</html>
